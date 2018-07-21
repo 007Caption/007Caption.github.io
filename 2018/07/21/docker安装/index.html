@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="使用 root 权限登录 Centos。确保 yum 包更新到最新。 1sudo yum update    卸载旧版本(如果安装过旧版本的话)1sudo yum remove docker docker-common docker-selinux docker-engine    安装需要的软件包， yum-util 提供yum-config-manager功能，另外两个是devicemapp">
+<meta name="description" content="使用 root 权限登录 Centos。确保 yum 包更新到最新。 1sudo yum update    卸载旧版本(如果安装过旧版本的话)1sudo yum remove docker docker-common docker-selinux docker-engine">
 <meta name="keywords" content="docker">
 <meta property="og:type" content="article">
 <meta property="og:title" content="docker安装指南">
 <meta property="og:url" content="https://007caption.github.io/2018/07/21/docker安装/index.html">
 <meta property="og:site_name" content="wll&#39;s Blog">
-<meta property="og:description" content="使用 root 权限登录 Centos。确保 yum 包更新到最新。 1sudo yum update    卸载旧版本(如果安装过旧版本的话)1sudo yum remove docker docker-common docker-selinux docker-engine    安装需要的软件包， yum-util 提供yum-config-manager功能，另外两个是devicemapp">
+<meta property="og:description" content="使用 root 权限登录 Centos。确保 yum 包更新到最新。 1sudo yum update    卸载旧版本(如果安装过旧版本的话)1sudo yum remove docker docker-common docker-selinux docker-engine">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-07-21T09:44:57.488Z">
+<meta property="og:updated_time" content="2018-07-21T09:47:50.953Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="docker安装指南">
-<meta name="twitter:description" content="使用 root 权限登录 Centos。确保 yum 包更新到最新。 1sudo yum update    卸载旧版本(如果安装过旧版本的话)1sudo yum remove docker docker-common docker-selinux docker-engine    安装需要的软件包， yum-util 提供yum-config-manager功能，另外两个是devicemapp">
+<meta name="twitter:description" content="使用 root 权限登录 Centos。确保 yum 包更新到最新。 1sudo yum update    卸载旧版本(如果安装过旧版本的话)1sudo yum remove docker docker-common docker-selinux docker-engine">
 
 
 
@@ -358,6 +358,7 @@
 <li>卸载旧版本(如果安装过旧版本的话)<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo yum remove docker docker-common docker-selinux docker-engine</span><br></pre></td></tr></table></figure>
 </li>
 </ol>
+<a id="more"></a>
 <ol start="3">
 <li>安装需要的软件包， yum-util 提供yum-config-manager功能，另外两个是devicemapper驱动依赖的<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo yum install -y yum-utils device-mapper-persistent-data lvm2</span><br></pre></td></tr></table></figure>
 </li>
@@ -378,8 +379,7 @@
 <li><p>验证安装是否成功(有client和service两部分表示docker安装启动都成功了)</p>
 <pre><code class="bash">docker version
 </code></pre>
-<p>###PS<br><a href="https://github.com/charleskun/DockerFilesForPhpDev" target="_blank" rel="noopener">Dockerfile</a></p>
-</li>
+<h6 id="Dockerfile"><a href="#Dockerfile" class="headerlink" title="Dockerfile"></a><a href="https://github.com/charleskun/DockerFilesForPhpDev" target="_blank" rel="noopener">Dockerfile</a></h6></li>
 </ol>
 
       
@@ -455,8 +455,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -507,6 +516,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-6"><a class="nav-link" href="#Dockerfile"><span class="nav-number">1.</span> <span class="nav-text">Dockerfile</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
