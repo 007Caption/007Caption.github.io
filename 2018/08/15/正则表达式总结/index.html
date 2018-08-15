@@ -87,7 +87,7 @@
 <meta property="og:site_name" content="wll&#39;s Blog">
 <meta property="og:description" content="正则表达式使用总结   单个字符’ab’ 1234➜  ~ grep &apos;ab&apos; /etc/passwd# User Database# See the opendirectoryd(8) man page for additional information about_jabber:*:84:84:Jabber XMPP Server:/var/empty:/usr/bin/false  范围匹">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-08-15T07:49:05.863Z">
+<meta property="og:updated_time" content="2018-08-15T10:20:43.934Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="正则表达式总结">
 <meta name="twitter:description" content="正则表达式使用总结   单个字符’ab’ 1234➜  ~ grep &apos;ab&apos; /etc/passwd# User Database# See the opendirectoryd(8) man page for additional information about_jabber:*:84:84:Jabber XMPP Server:/var/empty:/usr/bin/false  范围匹">
@@ -427,38 +427,53 @@
 <blockquote>
 <p> 正则一般都是贪婪模式匹配。。so 多改改吧~多练练。</p>
 </blockquote>
-<p></p><h5> sed 总结</h5><p></p>
+<h5> sed 总结</h5><br><em> sed 是行处理是不会改变内容的。除非重定向
+</em> sed 有两种格式<br>1. 命令行模式<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sed [options] <span class="string">'command'</span> file</span><br></pre></td></tr></table></figure><br><br>2. 脚本模式<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sed -f scriptfile</span><br></pre></td></tr></table></figure><br><br>&gt; options : 常用的 -e; -n command: 行定位(一般都是正则)+sed命令(操作)<br><br><em> -n -p 一般都是配合使用的 如果只使用-p的话会出现重复(跟sed的机制有关)
+</em> 定位一行 : x; /pattern/<br><em> 定位几行 : x,y; /pattern/,x;   /pattern1/,/pattern2/;   x,y! 取反
+</em> 定位间隔行 : first~step       如: nl /etc/passwd |sed -n ‘1~2p’<br><em> 基本操作命令 -a 新增行/i 插入行   -c 代替行   -d 删除行  如 nl /etc/passwd |sed ‘5a ============’ 在第五航后面新增===  i的话实在行前插入=
+</em> 如在ssh_config末尾下添加一些配置 port211 xxxx<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sed <span class="string">'$a port211 \n   xxxxx \n xxxx'</span> ssh_config</span><br></pre></td></tr></table></figure><br><br><em> 如删除a.txt文件中的所有的空行<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sed <span class="string">'/^$/d'</span> a.tzt</span><br></pre></td></tr></table></figure>
+
+</em> -s 替换命令如果全局替换 需要加-g 全局替换  sed ‘s/false/true/g’ a.txt  吧所有的false替换为true<br>* 如要找出本机en0网卡的ip<br>&gt; en0: flags=8863&lt;UP,BROADCAST,SMART,RUNNING,SIMPLEX,MULTICAST&gt; mtu 1500<br>    ether 8c:85:90:72:dc:25<br>    inet 172.17.2.80 netmask 0xfffffc00 broadcast 172.17.3.255<br>    media: autoselect<br>    status: active<br><br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ifconfig en0 | sed -n <span class="string">'/inet/p'</span> | sed <span class="string">'s/inet//'</span> | sed <span class="string">'s/n.*//'</span></span><br></pre></td></tr></table></figure><br><br><h5>高级技巧</h5>
+
 <ul>
-<li>sed 是行处理是不会改变内容的。除非重定向</li>
-<li>sed 有两种格式</li>
+<li>{} :多个sed命令,用;好分割</li>
+<li>-n : 读取下一行输入行(用于下一个命令处理)</li>
+<li>&amp; : 替换固定的字符串</li>
+<li>元字符 \u \U \l \L :转换为大小写</li>
+<li>() 替换部分字符串 :   sed ‘s/w1(w2)w3/\1/‘ a.log  把\1 表示w2</li>
+<li>-r : 复制指定的文件插入到匹配的行</li>
+<li>-w : 复制匹配行拷贝到指定文件中 会覆盖源文件</li>
+<li>q : 退出sed命令    如: sed ‘s/abc/q’ aa.log</li>
 </ul>
-<ol>
-<li><p>命令行模式</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sed [options] <span class="string">'command'</span> file</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>脚本模式</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sed -f scriptfile</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
+<h5>awk总结</h5>
+
+<ul>
+<li><p>awk [options] ‘command’ file</p>
 <blockquote>
-<p>options : 常用的 -e; -n command: 行定位(一般都是正则)+sed命令(操作)</p>
-<ul>
-<li>-n -p 一般都是配合使用的 如果只使用-p的话会出现重复(跟sed的机制有关)</li>
-<li>定位一行 : x; /pattern/</li>
-<li>定位几行 : x,y; /pattern/,x;   /pattern1/,/pattern2/;   x,y! 取反</li>
-<li>定位间隔行 : first~step       如: nl /etc/passwd |sed -n ‘1~2p’</li>
-<li>基本操作命令 -a 新增行/i 插入行   -c 代替行   -d 删除行  如 nl /etc/passwd |sed ‘5a ============’ 在第五航后面新增===  i的话实在行前插入=</li>
-<li>如在ssh_config末尾下添加一些配置 port211 xxxx<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sed <span class="string">'$a port211 \n   xxxxx \n xxxx'</span> ssh_config</span><br></pre></td></tr></table></figure>
+<p>内置变量</p>
+</blockquote>
 </li>
+<li><p>$0 : 表示整个当前行</p>
+</li>
+<li>$1 : 表示每行的第一个字段</li>
+<li>-F ‘:’ 指定分隔符  默认是空格为分隔符</li>
+<li>NR : 每行的记录号 (行号)</li>
+<li>NF : 字段熟练 (列号)</li>
+<li>FILENAME : 文件名</li>
 </ul>
+<blockquote>
+<p>逻辑表达式</p>
 </blockquote>
 <ul>
-<li><p>如删除a.txt文件中的所有的空行</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sed <span class="string">'/^$/d'</span> a.tzt</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>-s 替换命令 sed ‘s/false/true/‘ a.txt  吧所有的false替换为true<br>*</p>
+<li>~ , !~ : 匹配正则表达式</li>
+<li>== , !=, =, &lt;, &gt; : 判断逻辑表达式</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">awk -F <span class="string">':'</span> <span class="string">'$1~/^r.*/&#123;print $1&#125;'</span> /etc/passwd</span><br></pre></td></tr></table></figure>
+<ul>
+<li>awk 扩展格式  BEGIN {print “start” } pattern {commands} END {print “end”}<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">➜  ~ ll -s  | awk <span class="string">'BEGIN&#123; size =0&#125;&#123;size+=$6&#125; END &#123;print "size is " size/1024/1024"M"&#125;'</span></span><br><span class="line">size is 0.00271969M</span><br></pre></td></tr></table></figure>
 </li>
 </ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">➜  ~ awk -F <span class="string">':'</span> <span class="string">'BEGIN&#123;count = 0&#125; &#123;if ($3&gt; 100) name[count++]=$1&#125; END&#123;for (i =0; i&lt;count;i++) print i, name[i]&#125;'</span> /etc/passwd</span><br></pre></td></tr></table></figure>
 
       
     </div>
@@ -634,7 +649,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-5"><a class="nav-link" href="#undefined"><span class="nav-number">1.</span> <span class="nav-text">正则表达式使用总结</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#undefined"><span class="nav-number">2.</span> <span class="nav-text">逻辑或匹配 | 记得转义</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#undefined"><span class="nav-number">3.</span> <span class="nav-text"> sed 总结</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-5"><a class="nav-link" href="#undefined"><span class="nav-number">1.</span> <span class="nav-text">正则表达式使用总结</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#undefined"><span class="nav-number">2.</span> <span class="nav-text">逻辑或匹配 | 记得转义</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#undefined"><span class="nav-number">3.</span> <span class="nav-text"> sed 总结</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#undefined"><span class="nav-number">4.</span> <span class="nav-text">高级技巧</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#undefined"><span class="nav-number">5.</span> <span class="nav-text">awk总结</span></a></li></ol></div>
             
 
           </div>
